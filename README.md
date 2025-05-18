@@ -1,5 +1,7 @@
 # Andromeda Sports Collectibles Marketplace
 
+*[Türkçe dokümanı için tıklayın | Click for Turkish documentation](README_TR.md)*
+
 This is a [Next.js](https://nextjs.org/) project, built on the [Andromeda Protocol](https://www.andromedaprotocol.io/), designed to create a decentralized marketplace for sports collectibles, primarily focusing on sports cards as Non-Fungible Tokens (NFTs).
 
 ## Overview
@@ -7,6 +9,10 @@ This is a [Next.js](https://nextjs.org/) project, built on the [Andromeda Protoc
 The Andromeda Sports Collectibles Marketplace aims to revolutionize how fans interact with sports memorabilia. By leveraging the power of blockchain technology through the Andromeda Protocol, we offer a transparent, secure, and engaging platform for collecting, trading, and showcasing digital sports assets.
 
 ## Visual Tour
+
+### Hero Section & Navigation
+![Hero Section & Navigation](/readme-assets/hero-navbar.png)
+Our sleek and intuitive user interface welcomes users with a visually appealing hero section. The navigation bar provides easy access to key marketplace sections like Explore, Featured, and Trending collections, along with theme switching and other essential features.
 
 ### Explore Collections
 ![Explore Collections](/readme-assets/explore-collections.png)
@@ -139,104 +145,6 @@ The Andromeda Sports Collectibles Marketplace is built with a modern tech stack:
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Türkçe Detaylı Açıklama
-
-# Andromeda Spor Koleksiyon Pazaryeri
-
-Bu proje, spor kartları gibi koleksiyon ürünlerini Non-Fungible Token (NFT) olarak sunan, [Andromeda Protokolü](https://www.andromedaprotocol.io/) üzerine inşa edilmiş bir [Next.js](https://nextjs.org/) uygulamasıdır.
-
-## Genel Bakış
-
-Andromeda Spor Koleksiyon Pazaryeri, taraftarların spor hatıratları ile etkileşimini devrimleştirmeyi amaçlıyor. Andromeda Protokolü aracılığıyla blok zinciri teknolojisinin gücünden yararlanarak, dijital spor varlıklarını toplama, takas etme ve sergileme için şeffaf, güvenli ve ilgi çekici bir platform sunuyoruz.
-
-## Görsel Tur
-
-### Koleksiyonları Keşfedin
-![Koleksiyonları Keşfedin](/readme-assets/explore-collections.png)
-Spor türüne göre kategorize edilmiş çeşitli spor koleksiyonlarımızı inceleyin. Kullanıcılar favori sporcularını ve takımlarını bulmak için basketbol, futbol, beyzbol, hokey ve daha fazlasına göre filtreleme yapabilirler.
-
-### Öne Çıkan Koleksiyonlar
-![Öne Çıkan Koleksiyonlar](/readme-assets/featured-collectibles.png)
-Nadir, sınırlı sayıda ve özel spor hatıraları - önemleri ve değerleri için seçilmiş öne çıkan NFT'lerimizi keşfedin. Bu premium koleksiyon ürünleri, spor tarihindeki ikonik anları temsil eder.
-
-### Trend Olan Koleksiyonlar
-![Trend Olan Koleksiyonlar](/readme-assets/trending-collectibles.png)
-Pazaryerindeki en popüler ürünlerden haberdar olun. Trend bölümümüz, işlem hacmi, kullanıcı etkileşimi ve pazar talebine dayalı olarak en çok ilgi gören koleksiyon ürünlerini sergiler.
-
-### Destek ve Kaynaklar
-![Yardıma mı İhtiyacınız Var](/readme-assets/need-help.png)
-Platformda gezinmek için kapsamlı kılavuzlara, öğreticilere ve SSS'lere erişin. Destek sistemimiz, kullanıcıların bilinçli kararlar vermek için ihtiyaç duydukları tüm bilgilere sahip olmalarını sağlar.
-
-### Topluluk Katılımı
-![Alt Bilgi](/readme-assets/footer.png)
-Entegre topluluk özelliklerimiz ve bülten aboneliği aracılığıyla diğer koleksiyoncularla bağlantı kurun, tartışmalara katılın ve yaklaşan etkinlikler hakkında bilgi alın.
-
-## Özellikler
-
-- **NFT Tabanlı Spor Kartları**: Bir sporcunun kartı gibi her koleksiyon ürünü, blok zincirinde benzersiz ve doğrulanabilir bir NFT'dir.
-- **Merkezi Olmayan Pazaryeri**: Spor NFT'lerini eşler arası şekilde satın alın, satın ve takas edin.
-- **Kullanıcı Koleksiyonları**: Kullanıcılar, değerli koleksiyon ürünlerini sergileyerek spor NFT portföylerini yönetebilirler.
-- **Güvenli ve Şeffaf İşlemler**: Tüm işlemler, Andromeda Protokolü'nün sağlam altyapısı ile desteklenen güvenlik ve şeffaflığı sağlayan blok zincirinde kaydedilir.
-- **Arama ve Filtreleme**: Geniş bir spor NFT koleksiyonu arasında kolayca keşif yapın ve göz atın.
-- **Birlikte Çalışabilirlik**: Andromeda ekosistemi içinde gelişmiş işlevsellik ve birleştirilebilirlik için Andromeda Dijital Nesneleri (ADO) ile oluşturulmuştur.
-- **Duyarlı Tasarım**: Tüm platformlarda kesintisiz bir deneyim sağlayan, hem masaüstü hem de mobil cihazlar için tamamen optimize edilmiş.
-- **Gerçek Zamanlı Güncellemeler**: Fiyat değişiklikleri, yeni ilanlar ve başarılı teklifler hakkında anında bildirimler alın.
-- **Detaylı Analitik**: Bilinçli karar verme için pazar trendlerini, fiyat geçmişini ve işlem hacimlerini takip edin.
-- **Çoklu Zincir Desteği**: Andromeda Protokolü'nün zincirler arası yetenekleri sayesinde birden fazla blok zinciri ağıyla uyumludur.
-
-## Teknik Mimari
-
-Andromeda Spor Koleksiyon Pazaryeri modern bir teknoloji yığını ile inşa edilmiştir:
-
-### Önyüz
-- **Next.js**: Sunucu tarafı işleme ve statik site oluşturma sağlayan React çerçevesi
-- **TypeScript**: Tip güvenli kod geliştirme için
-- **Chakra UI**: Erişilebilir ve duyarlı tasarım için bileşen kitaplığı
-- **React Query**: Veri alma ve durum yönetimi
-
-### Arka Uç
-- **Andromeda Protokolü**: NFT operasyonları için blok zinciri altyapısı
-- **Cosmos SDK**: Altta yatan blok zinciri çerçevesi
-- **AndromedaJS**: Andromeda Protokolü ile arayüz için JavaScript/TypeScript SDK
-- **GraphQL API**: Verimli veri sorgulama için
-
-### Dağıtım
-- **Vercel**: Next.js uygulamaları için optimize edilmiş barındırma platformu
-- **Docker**: Tutarlı geliştirme ve dağıtım ortamları için konteynerleştirme
-- **GitHub Actions**: Otomatik test ve dağıtım için CI/CD hattı
-
-## Kurulum Kılavuzu
-
-### Ön Koşullar
-- Node.js 16.x veya üstü
-- npm 7.x veya üstü
-- Git
-
-### Kurulum Talimatları
-
-1. Depoyu klonlayın:
-   ```bash
-   git clone https://github.com/kullaniciadi/andromeda-sports-marketplace.git
-   cd andromeda-sports-marketplace
-   ```
-
-2. Bağımlılıkları yükleyin:
-   ```bash
-   npm install
-   ```
-
-3. Ortam değişkenlerini ayarlayın:
-   ```bash
-   cp .env.example .env.local
-   ```
-   `.env.local` dosyasını özel yapılandırmanızla düzenleyin.
-
-4. Geliştirme sunucusunu başlatın:
-   ```bash
-   npm run dev
-   ```
-
-5. Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açın.
 
 ## Learn More
 
