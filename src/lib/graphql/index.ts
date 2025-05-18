@@ -1,16 +1,33 @@
 import { StrictTypedTypePolicies, TypedFieldPolicy } from "@andromedaprotocol/gql";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache, from, HttpLink } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
 
+// Error handling link to log and manage GraphQL and network errors
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, locations, path }) => {
+      console.error(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      );
+    });
+  if (networkError) console.error(`[Network error]: ${networkError}`);
+});
+
+// HTTP link with the GraphQL endpoint
+const httpLink = new HttpLink({
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'https://api.andromedaprotocol.io/graphql/testnet',
+});
 
 /**
  * Apollo client used for queries, may require some state usage later
  */
 export const apolloClient = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
-  'defaultOptions': {
-    'query': {
-      'notifyOnNetworkStatusChange': true,
-      'fetchPolicy': 'cache-first'
+  link: from([errorLink, httpLink]),
+  defaultOptions: {
+    query: {
+      notifyOnNetworkStatusChange: true,
+      fetchPolicy: 'cache-first',
+      errorPolicy: 'all'
     }
   },
   ssrMode: true,
@@ -35,7 +52,6 @@ export const apolloClient = new ApolloClient({
             // the existing list items.
             merge(existing, incoming, { args }) {
               const offset = args?.offset ?? 0;
-              console.log(args?.offset, "ARGS", incoming, existing)
               // Slicing is necessary because the existing data is
               // immutable, and frozen in development.
               const merged = existing ? existing.slice(0, offset) : [];

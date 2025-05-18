@@ -4,6 +4,7 @@ import { Layout } from "@/modules/common/layout";
 import { DiscoverPage } from "@/modules/discover";
 import { KEPLR_AUTOCONNECT_KEY, connectAndromedaClient, initiateKeplr, useAndromedaStore } from "@/zustand/andromeda";
 import { updateConfig } from "@/zustand/app";
+import { Box, Center, Spinner, Text, useToast } from "@chakra-ui/react";
 import React, { FC, useEffect } from "react"
 
 interface Props {
@@ -15,6 +16,7 @@ const DefaultApp: FC<Props> = (props) => {
     const chainId = useAndromedaStore(state => state.chainId)
     const isLoading = useAndromedaStore(state => state.isLoading)
     const keplr = useAndromedaStore(state => state.keplr)
+    const toast = useToast();
 
     useEffect(() => {
         initiateKeplr();
@@ -24,10 +26,20 @@ const DefaultApp: FC<Props> = (props) => {
         const autoconnect = localStorage.getItem(KEPLR_AUTOCONNECT_KEY);
         if (!isLoading && typeof keplr !== "undefined" && autoconnect === keplr?.mode) {
             if (!isConnected || (isConnected && chainId !== APP_ENV.DEFAULT_CONFIG.chainId)) {
-                connectAndromedaClient(APP_ENV.DEFAULT_CONFIG.chainId);
+                connectAndromedaClient(APP_ENV.DEFAULT_CONFIG.chainId)
+                    .catch(err => {
+                        toast({
+                            title: "Connection Error",
+                            description: "Failed to connect to wallet. Please try again.",
+                            status: "error",
+                            duration: 5000,
+                            isClosable: true,
+                            position: "top-right"
+                        });
+                    });
             }
         }
-    }, [keplr, isConnected, isLoading, chainId]);
+    }, [keplr, isConnected, isLoading, chainId, toast]);
 
     useEffect(() => {
         updateConfig(APP_ENV.DEFAULT_CONFIG);
@@ -35,7 +47,16 @@ const DefaultApp: FC<Props> = (props) => {
 
     return (
         <Layout>
-            <DiscoverPage />
+            {isLoading ? (
+                <Center py={20}>
+                    <Box textAlign="center">
+                        <Spinner size="xl" color="blue.500" mb={4} />
+                        <Text fontSize="lg" fontWeight="medium">Loading your sports collectibles...</Text>
+                    </Box>
+                </Center>
+            ) : (
+                <DiscoverPage />
+            )}
         </Layout>
     )
 }

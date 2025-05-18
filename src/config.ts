@@ -2,7 +2,7 @@ import { ICollectionType, IConfig } from "./lib/app/types";
 
 const CONFIG: IConfig = {
     coinDenom: "ustars",
-    name: "Embeddable House",
+    name: "Sports NFT Marketplace",
     chainId: "elgafar-1",
     createdDate: "2024-03-31T19:01:01.148Z",
     modifiedDate: "2024-03-31T19:01:01.148Z",
