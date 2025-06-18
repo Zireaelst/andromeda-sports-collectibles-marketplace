@@ -31,7 +31,6 @@ yarn-error.log*
 .env.local
 .env.development.local
 .env.test.local
-.env.production.local
 
 # vercel
 .vercel
@@ -46,3 +45,7 @@ next-env.d.ts
 
 # Temporary files
 *.log
+
+# Vercel specific
+.vercel/
+.env.production.local

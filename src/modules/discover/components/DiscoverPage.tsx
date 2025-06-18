@@ -361,7 +361,7 @@ const DiscoverPage: FC<DiscoverPageProps> = (props) => {
           <Flex direction="column" align="center" justify="center">
             <Icon as={FiAward} color="blue.400" boxSize={16} mb={4} />
             <Heading as="h3" size="md" mb={2}>
-              This Week's Top Collectibles
+              This Week&apos;s Top Collectibles
             </Heading>
             <Text fontSize="lg" color={useColorModeValue("gray.600", "gray.400")} mb={6}>
               Discover the most popular sports memorabilia trending this week

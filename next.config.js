@@ -1,10 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   images: {
-    domains: ['ipfs.io', 'gateway.pinata.cloud'],
+    domains: [
+      'ipfs.io', 
+      'gateway.pinata.cloud',
+      'cloudflare-ipfs.com',
+      'gateway.ipfs.io'
+    ],
     unoptimized: true
   },
   eslint: {
@@ -13,11 +15,17 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
   env: {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
   },
-  trailingSlash: true,
-  output: 'standalone'
+  // Vercel deployment optimizations
+  poweredByHeader: false,
+  generateEtags: false,
+  compress: true
 };
 
 module.exports = nextConfig;
