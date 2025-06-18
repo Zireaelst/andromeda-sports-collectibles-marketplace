@@ -11,17 +11,29 @@ interface Props {
 
 const CollectionRouter: FC<Props> = (props) => {
     const { collectionId } = props;
-    const collection = useGetCollection(collectionId);
-    switch (collection.type) {
-        case ICollectionType.AUCTION:
-        case ICollectionType.MARKETPLACE:
-            return <Cw721Page collection={collection} contractAddress={collection.cw721} />
-        case ICollectionType.CROWDFUND:
-            return <CrowdfundPage collection={collection} />
-        case ICollectionType.EXCHANGE:
-            return <ExchangePage collection={collection} />
+    
+    try {
+        const collection = useGetCollection(collectionId);
+        
+        if (!collection) {
+            return <div>Collection not found</div>;
+        }
+        
+        switch (collection.type) {
+            case ICollectionType.AUCTION:
+            case ICollectionType.MARKETPLACE:
+                return <Cw721Page collection={collection} contractAddress={collection.cw721} />
+            case ICollectionType.CROWDFUND:
+                return <CrowdfundPage collection={collection} />
+            case ICollectionType.EXCHANGE:
+                return <ExchangePage collection={collection} />
+            default:
+                return <div>Unknown collection type</div>;
+        }
+    } catch (error) {
+        console.error('Error in CollectionRouter:', error);
+        return <div>Error loading collection</div>;
     }
-    return null;
 }
 
 export default CollectionRouter

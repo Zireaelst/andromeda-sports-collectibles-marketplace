@@ -4,6 +4,7 @@ import { parseEmbeddableUrl } from "@/utils/config";
 import { KEPLR_AUTOCONNECT_KEY, connectAndromedaClient, initiateKeplr, useAndromedaStore } from "@/zustand/andromeda";
 import { updateConfig } from "@/zustand/app";
 import { useSearchParams } from "next/navigation";
+import { safeLocalStorage } from "@/utils/safeStorage";
 import React, { FC, ReactNode, useEffect, useLayoutEffect, useState } from "react"
 
 interface Props {
@@ -33,13 +34,14 @@ const Providers: FC<Props> = (props) => {
     }, []);
 
     useLayoutEffect(() => {
-        const autoconnect = localStorage.getItem(KEPLR_AUTOCONNECT_KEY);
+        // Safe localStorage access
+        const autoconnect = safeLocalStorage.getItem(KEPLR_AUTOCONNECT_KEY);
         if (!isLoading && typeof keplr !== "undefined" && autoconnect === keplr?.mode) {
             if (!isConnected || (isConnected && (connectedChainId !== chainId))) {
                 connectAndromedaClient(chainId);
             }
         }
-    }, [keplr, isConnected, isLoading, chainId]);
+    }, [keplr, isConnected, isLoading, chainId, connectedChainId]);
 
     if (!loaded) return null;
 

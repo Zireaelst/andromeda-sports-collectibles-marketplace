@@ -51,6 +51,8 @@ NEXT_PUBLIC_NETWORK_TYPE=testnet
 - ✅ **Hash Navigation Düzeltildi:** Navigation hash links artık sadece homepage (/) ile çalışır
 - ✅ **Explore Button Düzeltildi:** Ana "Explore" butonu artık tıklanamaz, sadece dropdown açılır
 - ✅ **Collections Navigation Düzeltildi:** Collections links artık homepage hash ile çalışır
+- ✅ **Storage Access Hatası Düzeltildi:** Tüm localStorage erişimleri güvenli hale getirildi
+- ✅ **Collection Page SSR Düzeltildi:** Dynamic import ve error boundary eklendi
 - ✅ **Storage Issues Çözüldü:** `localStorage`/`sessionStorage` safe access eklendi
 - ✅ **Server Component Errors Çözüldü:** Dynamic imports ve NoSSR wrappers eklendi
 - ✅ **Function Runtime Error Çözüldü:** vercel.json kaldırıldı, otomatik algılama aktif
@@ -158,6 +160,27 @@ Deploy işlemi başarısız olursa:
   - `homeRoute = '/'` sabit değer olarak ayarlandı (dynamic route generation yerine)
   - Next.js router ile proper client-side navigation eklendi
 - **Sonuç:** Hash navigation artık tüm sayfalarda güvenli şekilde çalışır
+
+#### ✅ Collection Page "Something went wrong!" Hatası - ÇÖZÜLDÜ
+- **Problem:** Collection sayfaları (örn: `/elgafar-1/andromeda/embeddables-auction-1`) "Something went wrong!" hatası veriyordu
+- **Hata Sebepleri:**
+  1. Server Components render error
+  2. "Access to storage is not allowed from this context" - localStorage erişim hataları
+  3. SSR/hydration mismatch
+- **Çözümler:**
+  - Collection page dynamic import ile SSR disabled (`ssr: false`)
+  - ErrorBoundary eklendi graceful error handling için
+  - Tüm localStorage erişimleri `safeLocalStorage` ile güvenli hale getirildi
+  - `app/[chain]/providers.tsx` ve `app/preview/providers.tsx` dosyalarında unsafe storage erişimi düzeltildi
+  - Collection Router'da better error handling eklendi
+- **Sonuç:** Collection sayfaları artık güvenli şekilde çalışır, storage erişim hataları engellendir
+
+#### ✅ Remaining Storage Access Issues - ÇÖZÜLDÜ
+- **Problem:** Hâlâ bazı yerlerde direct localStorage erişimi vardı
+- **Bulunan ve düzeltilen yerler:**
+  - `app/preview/providers.tsx` - localStorage.getItem() → safeLocalStorage.getItem()
+  - `app/[chain]/providers.tsx` - localStorage.getItem() → safeLocalStorage.getItem()
+- **Sonuç:** Artık tüm storage erişimleri SSR-safe
 
 ## 📞 Destek
 

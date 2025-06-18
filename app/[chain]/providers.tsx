@@ -1,5 +1,6 @@
 "use client"
 import { KEPLR_AUTOCONNECT_KEY, connectAndromedaClient, initiateKeplr, useAndromedaStore } from "@/zustand/andromeda";
+import { safeLocalStorage } from "@/utils/safeStorage";
 import React, { FC, ReactNode, useEffect, useLayoutEffect } from "react"
 
 interface Props {
@@ -19,13 +20,14 @@ const Providers: FC<Props> = (props) => {
     }, []);
 
     useLayoutEffect(() => {
-        const autoconnect = localStorage.getItem(KEPLR_AUTOCONNECT_KEY);
+        // Safe localStorage access
+        const autoconnect = safeLocalStorage.getItem(KEPLR_AUTOCONNECT_KEY);
         if (!isLoading && typeof keplr !== "undefined" && autoconnect === keplr?.mode) {
             if (!isConnected || (isConnected && connectedChainId !== chainId)) {
                 connectAndromedaClient(chainId);
             }
         }
-    }, [keplr, isConnected, isLoading, chainId]);
+    }, [keplr, isConnected, isLoading, chainId, connectedChainId]);
 
     return (
         <>
