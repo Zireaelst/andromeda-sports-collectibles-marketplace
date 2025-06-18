@@ -39,17 +39,18 @@ NEXT_PUBLIC_NETWORK_TYPE=testnet
 
 ## ✅ Yapılandırılmış Dosyalar
 
-- ✅ `vercel.json` - Vercel konfigürasyonu (Node.js 18.x sabit)
 - ✅ `next.config.js` - Next.js optimizasyonları
 - ✅ `.nvmrc` - Node.js 18.19.0 sabit versiyon
 - ✅ `.env.production` - Production environment variables
 - ✅ `package.json` - Node.js engine 18.x sabit versiyon
 - ✅ Kaldırıldı: `@types/axios` (deprecated package)
+- ✅ Kaldırıldı: `vercel.json` (Next.js otomatik algılanır)
 - ✅ **SSR Sorunları Düzeltildi:** Client-side rendering wrappers eklendi
 - ✅ **Navigation Hatası Düzeltildi:** Hash navigation için `window` kontrolü eklendi
 - ✅ **Hook Sorunları Düzeltildi:** Tüm React hooks component seviyesine taşındı
 - ✅ **Storage Issues Çözüldü:** `localStorage`/`sessionStorage` safe access eklendi
 - ✅ **Server Component Errors Çözüldü:** Dynamic imports ve NoSSR wrappers eklendi
+- ✅ **Function Runtime Error Çözüldü:** vercel.json kaldırıldı, otomatik algılama aktif
 
 ## 🔧 Düzeltilen SSR Sorunları
 
@@ -127,6 +128,11 @@ Deploy işlemi başarısız olursa:
 - **Çözüm:** `NoSSR` wrapper ile critical components client-side'a alındı
 - **Çözüm:** Dynamic imports ile SSR bypass yapıldı
 - **Çözüm:** Error boundaries ile graceful error handling
+
+#### ✅ Function Runtimes Error - ÇÖZÜLDÜ
+- **Hata:** "Function Runtimes must have a valid version"
+- **Çözüm:** `vercel.json` dosyası kaldırıldı
+- **Açıklama:** Vercel, Next.js projelerini otomatik algılar, manuel konfigürasyon gerekmez
 
 ## 📞 Destek
 
