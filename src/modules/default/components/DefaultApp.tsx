@@ -6,6 +6,8 @@ import { KEPLR_AUTOCONNECT_KEY, connectAndromedaClient, initiateKeplr, useAndrom
 import { updateConfig } from "@/zustand/app";
 import { Box, Center, Spinner, Text, useToast } from "@chakra-ui/react";
 import React, { FC, useEffect } from "react"
+import ClientOnly from "@/components/ClientOnly";
+import { safeLocalStorage } from "@/utils/safeStorage";
 
 interface Props {
 }
@@ -23,7 +25,9 @@ const DefaultApp: FC<Props> = (props) => {
     }, []);
 
     useEffect(() => {
-        const autoconnect = localStorage.getItem(KEPLR_AUTOCONNECT_KEY);
+        // Safe localStorage access
+        const autoconnect = safeLocalStorage.getItem(KEPLR_AUTOCONNECT_KEY);
+        
         if (!isLoading && typeof keplr !== "undefined" && autoconnect === keplr?.mode) {
             if (!isConnected || (isConnected && chainId !== APP_ENV.DEFAULT_CONFIG.chainId)) {
                 connectAndromedaClient(APP_ENV.DEFAULT_CONFIG.chainId)
@@ -46,18 +50,31 @@ const DefaultApp: FC<Props> = (props) => {
     }, [])
 
     return (
-        <Layout>
-            {isLoading ? (
-                <Center py={20}>
-                    <Box textAlign="center">
-                        <Spinner size="xl" color="blue.500" mb={4} />
-                        <Text fontSize="lg" fontWeight="medium">Loading your sports collectibles...</Text>
-                    </Box>
-                </Center>
-            ) : (
-                <DiscoverPageClient />
-            )}
-        </Layout>
+        <ClientOnly
+            fallback={
+                <Layout>
+                    <Center py={20}>
+                        <Box textAlign="center">
+                            <Spinner size="xl" color="blue.500" mb={4} />
+                            <Text fontSize="lg" fontWeight="medium">Loading application...</Text>
+                        </Box>
+                    </Center>
+                </Layout>
+            }
+        >
+            <Layout>
+                {isLoading ? (
+                    <Center py={20}>
+                        <Box textAlign="center">
+                            <Spinner size="xl" color="blue.500" mb={4} />
+                            <Text fontSize="lg" fontWeight="medium">Loading your sports collectibles...</Text>
+                        </Box>
+                    </Center>
+                ) : (
+                    <DiscoverPageClient />
+                )}
+            </Layout>
+        </ClientOnly>
     )
 }
 

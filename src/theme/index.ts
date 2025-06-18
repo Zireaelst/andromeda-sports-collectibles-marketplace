@@ -18,7 +18,10 @@ const config: ThemeConfig = {
   useSystemColorMode: false,
 }
 
-export const ThemeStorageManager = createLocalStorageManager("andromeda-marketplace-theme");
+// Safe storage manager that works on both client and server
+export const ThemeStorageManager = typeof window !== 'undefined' 
+  ? createLocalStorageManager("andromeda-marketplace-theme")
+  : undefined;
 
 export default extendTheme({
   config,

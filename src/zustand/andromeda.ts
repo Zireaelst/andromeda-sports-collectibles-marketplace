@@ -6,6 +6,7 @@ import { refetchChainConfigQuery, refetchKeplrConfigQuery, IChainConfigQuery, IK
 import { GasPrice } from "@cosmjs/stargate/build/fee";
 import type { AccountData, Keplr } from "@keplr-wallet/types";
 import { create } from "zustand";
+import { safeLocalStorage } from "@/utils/safeStorage";
 
 export enum KeplrConnectionStatus {
     Ok,
@@ -98,7 +99,9 @@ export const connectAndromedaClient = async (chainId?: string | null) => {
             config.addressPrefix,
             signer as any,
             { gasPrice: GasPrice.fromString(config.defaultFee) });
-        localStorage.setItem(KEPLR_AUTOCONNECT_KEY, keplr?.mode ?? "extension");
+        
+        // Safe localStorage access
+        safeLocalStorage.setItem(KEPLR_AUTOCONNECT_KEY, keplr?.mode ?? "extension");
 
         useAndromedaStore.setState({
             accounts,
@@ -117,8 +120,13 @@ export const connectAndromedaClient = async (chainId?: string | null) => {
 }
 
 export const disconnectAndromedaClient = () => {
-    window.removeEventListener("keplr_keystorechange", keplrKeystoreChange);
-    localStorage.removeItem(KEPLR_AUTOCONNECT_KEY);
+    if (typeof window !== 'undefined') {
+        window.removeEventListener("keplr_keystorechange", keplrKeystoreChange);
+    }
+    
+    // Safe localStorage access
+    safeLocalStorage.removeItem(KEPLR_AUTOCONNECT_KEY);
+    
     useAndromedaStore.setState({
         isConnected: false,
         accounts: [],
