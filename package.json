@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint --quiet",
     "export": "next build && next export",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "vercel-build": "next build",
+    "preview": "next build && next start"
   },
   "dependencies": {
     "@andromedaprotocol/andromeda.js": "^0.3.8-beta.4",
