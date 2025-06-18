@@ -48,6 +48,11 @@ export const Navbar: FC<NavbarProps> = (props) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const isDesktop = useBreakpointValue({ base: false, lg: true });
   
+  // Color mode values
+  const navHoverBg = useColorModeValue('gray.100', 'gray.700');
+  const popoverBg = useColorModeValue('white', 'gray.800');
+  const iconColor = useColorModeValue('blue.500', 'blue.300');
+  
   // Get current chain and app configuration for routing
   const { chainId } = useAndromedaStore();
   const { config: appConfig } = useAppStore();
@@ -58,6 +63,19 @@ export const Navbar: FC<NavbarProps> = (props) => {
 
   // Generate configured navigation items with hash links for in-page navigation
   const navItems = useMemo(() => {
+    const handleHashNavigation = (hash: string) => {
+      if (typeof window !== 'undefined') {
+        // Use router.push for better client-side navigation
+        window.location.hash = hash;
+        setTimeout(() => {
+          const element = document.getElementById(hash.substring(1));
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      }
+    };
+
     return [
       {
         label: 'Explore',
@@ -177,7 +195,7 @@ export const Navbar: FC<NavbarProps> = (props) => {
                         leftIcon={navItem.icon && <Icon as={navItem.icon} />}
                         _hover={{
                           textDecoration: 'none',
-                          bg: useColorModeValue('gray.100', 'gray.700'),
+                          bg: navHoverBg,
                         }}
                       >
                         {navItem.label}
@@ -198,7 +216,7 @@ export const Navbar: FC<NavbarProps> = (props) => {
                     <PopoverContent
                       border={0}
                       boxShadow={'xl'}
-                      bg={useColorModeValue('white', 'gray.800')}
+                      bg={popoverBg}
                       p={4}
                       rounded={'xl'}
                       minW={'sm'}>
@@ -239,6 +257,11 @@ export const Navbar: FC<NavbarProps> = (props) => {
 };
 
 const DesktopSubNav = ({ label, href, subLabel, icon }: NavItem) => {
+  const hoverBg = useColorModeValue('blue.50', 'gray.700');
+  const iconColor = useColorModeValue('blue.500', 'blue.300');
+  const textColor = useColorModeValue('gray.500', 'gray.400');
+  const hoverTextColor = useColorModeValue('blue.500', 'blue.300');
+
   return (
     <Link href={href ?? '#'} passHref>
       <Box
@@ -247,19 +270,19 @@ const DesktopSubNav = ({ label, href, subLabel, icon }: NavItem) => {
         display="block"
         p={2}
         rounded="md"
-        _hover={{ bg: useColorModeValue('blue.50', 'gray.700') }}>
+        _hover={{ bg: hoverBg }}>
         <Stack direction="row" align="center">
           <Box>
             <Flex align="center">
-              {icon && <Icon as={icon} mr={2} color={useColorModeValue('blue.500', 'blue.300')} />}
+              {icon && <Icon as={icon} mr={2} color={iconColor} />}
               <Text
                 transition="all .3s ease"
-                _groupHover={{ color: useColorModeValue('blue.500', 'blue.300') }}
+                _groupHover={{ color: hoverTextColor }}
                 fontWeight={500}>
                 {label}
               </Text>
             </Flex>
-            <Text fontSize="sm" color={useColorModeValue('gray.500', 'gray.400')}>
+            <Text fontSize="sm" color={textColor}>
               {subLabel}
             </Text>
           </Box>
@@ -271,7 +294,7 @@ const DesktopSubNav = ({ label, href, subLabel, icon }: NavItem) => {
             justify="flex-end"
             align="center"
             flex={1}>
-            <Icon color={useColorModeValue('blue.500', 'blue.300')} w={5} h={5} as={ChevronRightIcon} />
+            <Icon color={hoverTextColor} w={5} h={5} as={ChevronRightIcon} />
           </Flex>
         </Stack>
       </Box>
@@ -284,9 +307,11 @@ interface MobileNavProps {
 }
 
 const MobileNav: FC<MobileNavProps> = ({ navItems }) => {
+  const mobileBg = useColorModeValue('white', 'gray.800');
+  
   return (
     <Stack
-      bg={useColorModeValue('white', 'gray.800')}
+      bg={mobileBg}
       p={4}
       display={{ lg: 'none' }}>
       {navItems.map((navItem) => (
@@ -298,6 +323,8 @@ const MobileNav: FC<MobileNavProps> = ({ navItems }) => {
 
 const MobileNavItem = ({ label, children, href, icon }: NavItem) => {
   const { isOpen, onToggle } = useDisclosure();
+  const textColor = useColorModeValue('gray.600', 'gray.200');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
@@ -314,7 +341,7 @@ const MobileNavItem = ({ label, children, href, icon }: NavItem) => {
           {icon && <Icon as={icon} mr={2} />}
           <Text
             fontWeight={600}
-            color={useColorModeValue('gray.600', 'gray.200')}>
+            color={textColor}>
             {label}
           </Text>
         </Flex>
@@ -335,7 +362,7 @@ const MobileNavItem = ({ label, children, href, icon }: NavItem) => {
           pl={4}
           borderLeft={1}
           borderStyle={'solid'}
-          borderColor={useColorModeValue('gray.200', 'gray.700')}
+          borderColor={borderColor}
           align={'start'}>
           {children &&
             children.map((child) => (

@@ -36,13 +36,19 @@ const DiscoverPage: FC<DiscoverPageProps> = (props) => {
 
   // Handle hash navigation
   useEffect(() => {
+    // Ensure we're on the client side
+    if (typeof window === 'undefined') return;
+    
     // Check if there's a hash in the URL to scroll to the correct section
     if (window.location.hash) {
       const id = window.location.hash.substring(1);
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      // Use setTimeout to ensure the DOM is fully rendered
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
       
       // Set active category if it's in the hash
       if (id === 'explore-basketball') {
@@ -81,12 +87,18 @@ const DiscoverPage: FC<DiscoverPageProps> = (props) => {
     return allCollections.filter((col) => collectionIds.includes(col.id));
   }, [allCollections, activeCategory]);
 
+  // Color mode values - defined at component level
   const bgGradient = useColorModeValue(
-    "linear(to-r, blue.50, purple.50)",
-    "linear(to-r, blue.900, purple.900)"
+    "linear(to-br, blue.50, purple.50, pink.50)",
+    "linear(to-br, gray.900, blue.900, purple.900)"
   );
   const cardBg = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.700");
+  const textColor = useColorModeValue("gray.800", "white");
+  const subtleText = useColorModeValue("gray.600", "gray.400");
+  const categoryBg = useColorModeValue("white", "gray.700");
+  const categoryHoverBg = useColorModeValue("gray.100", "gray.600");
+  const placeholderBg = useColorModeValue("gray.100", "gray.800");
 
   const categories = [
     { id: "all", name: "All Collections" },
@@ -375,14 +387,14 @@ const DiscoverPage: FC<DiscoverPageProps> = (props) => {
                   boxShadow="md"
                   borderWidth="1px"
                   borderColor={borderColor}
-                  bg={useColorModeValue("white", "gray.700")}
+                  bg={cardBg}
                   p={4}
                 >
-                  <Flex align="center" justify="center" height="150px" bg={useColorModeValue("gray.100", "gray.800")} borderRadius="md" mb={4}>
+                  <Flex align="center" justify="center" height="150px" bg={placeholderBg} borderRadius="md" mb={4}>
                     <Text fontSize="lg" fontWeight="bold">Trending Item #{item}</Text>
                   </Flex>
                   <Heading as="h4" size="sm" mb={2} noOfLines={1}>Popular Collectible {item}</Heading>
-                  <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>
+                  <Text fontSize="sm" color={subtleText}>
                     This item is currently trending among collectors.
                   </Text>
                 </Box>

@@ -1,7 +1,7 @@
 "use client";
 import { APP_ENV } from "@/appEnv";
 import { Layout } from "@/modules/common/layout";
-import { DiscoverPage } from "@/modules/discover";
+import DiscoverPageClient from "@/modules/discover/components/DiscoverPageClient";
 import { KEPLR_AUTOCONNECT_KEY, connectAndromedaClient, initiateKeplr, useAndromedaStore } from "@/zustand/andromeda";
 import { updateConfig } from "@/zustand/app";
 import { Box, Center, Spinner, Text, useToast } from "@chakra-ui/react";
@@ -55,7 +55,7 @@ const DefaultApp: FC<Props> = (props) => {
                     </Box>
                 </Center>
             ) : (
-                <DiscoverPage />
+                <DiscoverPageClient />
             )}
         </Layout>
     )

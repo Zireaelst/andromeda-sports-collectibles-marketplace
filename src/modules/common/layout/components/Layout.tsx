@@ -4,6 +4,7 @@ import React, { FC, ReactNode } from "react";
 import { Navbar } from "./Navbar"; // This is correct if Navbar.tsx has a named export
 import PoweredByLogo from "./PoweredByLogo";
 import Footer from "./Footer";
+import ClientOnly from "@/components/ClientOnly";
 
 interface LayoutProps {
   children?: ReactNode;
@@ -26,19 +27,26 @@ const Layout: FC<LayoutProps> = (props) => {
         borderBottom="1px"
         borderColor={borderColor}
       >
-        <Navbar />
+        <ClientOnly>
+          <Navbar />
+        </ClientOnly>
       </Box>
       <Container maxW="container.xl" py={8}>
-        {children}
+        <ClientOnly>
+          {children}
+        </ClientOnly>
       </Container>
       <Divider borderColor={borderColor} />
       <Box py={4} textAlign="center">
         <PoweredByLogo />
       </Box>
       <Box>
-        <Footer />
+        <ClientOnly>
+          <Footer />
+        </ClientOnly>
       </Box>
     </Box>
   );
 };
+
 export default Layout;
