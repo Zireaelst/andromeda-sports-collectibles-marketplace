@@ -48,6 +48,7 @@ NEXT_PUBLIC_NETWORK_TYPE=testnet
 - ✅ **SSR Sorunları Düzeltildi:** Client-side rendering wrappers eklendi
 - ✅ **Navigation Hatası Düzeltildi:** Hash navigation için `window` kontrolü eklendi
 - ✅ **Hook Sorunları Düzeltildi:** Tüm React hooks component seviyesine taşındı
+- ✅ **Hash Navigation Düzeltildi:** Navigation hash links artık sadece homepage (/) ile çalışır
 - ✅ **Storage Issues Çözüldü:** `localStorage`/`sessionStorage` safe access eklendi
 - ✅ **Server Component Errors Çözüldü:** Dynamic imports ve NoSSR wrappers eklendi
 - ✅ **Function Runtime Error Çözüldü:** vercel.json kaldırıldı, otomatik algılama aktif
@@ -133,6 +134,12 @@ Deploy işlemi başarısız olursa:
 - **Hata:** "Function Runtimes must have a valid version"
 - **Çözüm:** `vercel.json` dosyası kaldırıldı
 - **Açıklama:** Vercel, Next.js projelerini otomatik algılar, manuel konfigürasyon gerekmez
+
+#### ✅ Hash Navigation on Dynamic Routes Error - ÇÖZÜLDÜ
+- **Hata:** SSR errors when accessing hash links on dynamic routes (e.g., `/elgafar-1/andromeda#featured`)
+- **Çözüm:** Navbar hash navigation always points to homepage `/` instead of current route
+- **Açıklama:** Hash links like `#featured`, `#help` now navigate to `/#featured`, `/#help` preventing SSR errors
+- **Dosya:** `src/modules/common/layout/components/Navbar.tsx` - `homeRoute = '/'` olarak değiştirildi
 
 ## 📞 Destek
 

@@ -31,6 +31,7 @@ import React, { FC, useMemo } from "react";
 import { CollectionDropdown, ConnectWallet } from "@/modules/common/cta";
 import useApp from "@/lib/app/hooks/useApp";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { LINKS } from "@/utils/links";
 // Import each icon individually to avoid bundling issues
 import { FiGrid } from "react-icons/fi";
@@ -47,6 +48,7 @@ export const Navbar: FC<NavbarProps> = (props) => {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const isDesktop = useBreakpointValue({ base: false, lg: true });
+  const router = useRouter();
   
   // Color mode values
   const navHoverBg = useColorModeValue('gray.100', 'gray.700');
@@ -58,24 +60,18 @@ export const Navbar: FC<NavbarProps> = (props) => {
   const { config: appConfig } = useAppStore();
   const appId = appConfig?.id || '';
   
-  // Home route
-  const homeRoute = LINKS.home();
+  // Always use root homepage for hash navigation to prevent SSR errors on dynamic routes
+  const homeRoute = '/';
+
+  // Navigation handler for hash links - always navigate to homepage with hash
+  const handleHashNavigation = (hash: string) => {
+    if (typeof window !== 'undefined') {
+      router.push(`/${hash}`);
+    }
+  };
 
   // Generate configured navigation items with hash links for in-page navigation
   const navItems = useMemo(() => {
-    const handleHashNavigation = (hash: string) => {
-      if (typeof window !== 'undefined') {
-        // Use router.push for better client-side navigation
-        window.location.hash = hash;
-        setTimeout(() => {
-          const element = document.getElementById(hash.substring(1));
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 100);
-      }
-    };
-
     return [
       {
         label: 'Explore',
