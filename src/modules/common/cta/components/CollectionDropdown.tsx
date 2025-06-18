@@ -39,7 +39,7 @@ const CollectionDropdown: FC<CollectionDropdownProps> = (props) => {
         {collections.map((col) => (
           <MenuItem
             as={Link}
-            href={LINKS.collection(col.id)}
+            href={`/#collections-${col.id}`}
             key={col.id}
             data-testid={`collection-dropdown-item-${col.id}`}
           >

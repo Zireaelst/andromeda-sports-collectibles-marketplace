@@ -76,6 +76,7 @@ export const Navbar: FC<NavbarProps> = (props) => {
       {
         label: 'Explore',
         icon: FiGrid,
+        isDropdownOnly: true, // This will prevent the main button from being clickable
         children: [
           {
             label: 'All Collections',
@@ -181,9 +182,8 @@ export const Navbar: FC<NavbarProps> = (props) => {
               <Box key={navItem.label}>
                 <Popover trigger={'hover'} placement={'bottom-start'}>
                   <PopoverTrigger>
-                    <Link href={navItem.href ?? LINKS.home()} passHref>
+                    {navItem.isDropdownOnly ? (
                       <Button 
-                        as="a" 
                         p={2}
                         fontSize={'md'}
                         fontWeight={500}
@@ -193,6 +193,7 @@ export const Navbar: FC<NavbarProps> = (props) => {
                           textDecoration: 'none',
                           bg: navHoverBg,
                         }}
+                        cursor="default"
                       >
                         {navItem.label}
                         {navItem.children && (
@@ -205,7 +206,33 @@ export const Navbar: FC<NavbarProps> = (props) => {
                           />
                         )}
                       </Button>
-                    </Link>
+                    ) : (
+                      <Link href={navItem.href ?? homeRoute} passHref>
+                        <Button 
+                          as="a" 
+                          p={2}
+                          fontSize={'md'}
+                          fontWeight={500}
+                          variant="ghost"
+                          leftIcon={navItem.icon && <Icon as={navItem.icon} />}
+                          _hover={{
+                            textDecoration: 'none',
+                            bg: navHoverBg,
+                          }}
+                        >
+                          {navItem.label}
+                          {navItem.children && (
+                            <Icon
+                              as={ChevronDownIcon}
+                              transition={'all .25s ease-in-out'}
+                              w={4}
+                              h={4}
+                              ml={1}
+                            />
+                          )}
+                        </Button>
+                      </Link>
+                    )}
                   </PopoverTrigger>
 
                   {navItem.children && (
@@ -317,40 +344,67 @@ const MobileNav: FC<MobileNavProps> = ({ navItems }) => {
   );
 };
 
-const MobileNavItem = ({ label, children, href, icon }: NavItem) => {
+const MobileNavItem = ({ label, children, href, icon, isDropdownOnly }: NavItem) => {
   const { isOpen, onToggle } = useDisclosure();
   const textColor = useColorModeValue('gray.600', 'gray.200');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
-      <Flex
-        py={2}
-        as={Link}
-        href={href ?? '#'}
-        justify={'space-between'}
-        align={'center'}
-        _hover={{
-          textDecoration: 'none',
-        }}>
-        <Flex align="center">
-          {icon && <Icon as={icon} mr={2} />}
-          <Text
-            fontWeight={600}
-            color={textColor}>
-            {label}
-          </Text>
+      {isDropdownOnly ? (
+        <Flex
+          py={2}
+          justify={'space-between'}
+          align={'center'}
+          cursor={children ? 'pointer' : 'default'}
+        >
+          <Flex align="center">
+            {icon && <Icon as={icon} mr={2} />}
+            <Text
+              fontWeight={600}
+              color={textColor}>
+              {label}
+            </Text>
+          </Flex>
+          {children && (
+            <Icon
+              as={ChevronDownIcon}
+              transition={'all .25s ease-in-out'}
+              transform={isOpen ? 'rotate(180deg)' : ''}
+              w={6}
+              h={6}
+            />
+          )}
         </Flex>
-        {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition={'all .25s ease-in-out'}
-            transform={isOpen ? 'rotate(180deg)' : ''}
-            w={6}
-            h={6}
-          />
-        )}
-      </Flex>
+      ) : (
+        <Flex
+          py={2}
+          as={Link}
+          href={href ?? '#'}
+          justify={'space-between'}
+          align={'center'}
+          _hover={{
+            textDecoration: 'none',
+          }}>
+          <Flex align="center">
+            {icon && <Icon as={icon} mr={2} />}
+            <Text
+              fontWeight={600}
+              color={textColor}>
+              {label}
+            </Text>
+          </Flex>
+          {children && (
+            <Icon
+              as={ChevronDownIcon}
+              transition={'all .25s ease-in-out'}
+              transform={isOpen ? 'rotate(180deg)' : ''}
+              w={6}
+              h={6}
+            />
+          )}
+        </Flex>
+      )}
 
       <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
         <Stack
@@ -383,6 +437,7 @@ interface NavItem {
   children?: Array<NavItem>;
   href?: string;
   icon?: React.ComponentType;
+  isDropdownOnly?: boolean; // New property to indicate dropdown-only items
 }
 
 export default Navbar;

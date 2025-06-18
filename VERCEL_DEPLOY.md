@@ -49,6 +49,8 @@ NEXT_PUBLIC_NETWORK_TYPE=testnet
 - ✅ **Navigation Hatası Düzeltildi:** Hash navigation için `window` kontrolü eklendi
 - ✅ **Hook Sorunları Düzeltildi:** Tüm React hooks component seviyesine taşındı
 - ✅ **Hash Navigation Düzeltildi:** Navigation hash links artık sadece homepage (/) ile çalışır
+- ✅ **Explore Button Düzeltildi:** Ana "Explore" butonu artık tıklanamaz, sadece dropdown açılır
+- ✅ **Collections Navigation Düzeltildi:** Collections links artık homepage hash ile çalışır
 - ✅ **Storage Issues Çözüldü:** `localStorage`/`sessionStorage` safe access eklendi
 - ✅ **Server Component Errors Çözüldü:** Dynamic imports ve NoSSR wrappers eklendi
 - ✅ **Function Runtime Error Çözüldü:** vercel.json kaldırıldı, otomatik algılama aktif
@@ -140,6 +142,22 @@ Deploy işlemi başarısız olursa:
 - **Çözüm:** Navbar hash navigation always points to homepage `/` instead of current route
 - **Açıklama:** Hash links like `#featured`, `#help` now navigate to `/#featured`, `/#help` preventing SSR errors
 - **Dosya:** `src/modules/common/layout/components/Navbar.tsx` - `homeRoute = '/'` olarak değiştirildi
+
+#### ✅ Explore Button ve Collections Navigation - ÇÖZÜLDÜ
+- **Problem:** "Explore" butonuna tıklamak ve "Collections" dropdown'ındaki linklere tıklamak SSR hataları veriyordu
+- **Çözüm:** 
+  - "Explore" butonu artık dropdown-only (sadece hover'da açılır, tıklanamaz)
+  - Collections links artık dynamic routes yerine homepage hash (#collections-{id}) kullanır
+  - Hash navigation always homepage (/) to prevent SSR errors on dynamic routes
+- **Sonuç:** Explore dropdown ve Collections navigation artık güvenli şekilde çalışır
+
+#### ✅ Dynamic Routes Hash Navigation - ÇÖZÜLDÜ
+- **Problem:** `/elgafar-1/andromeda#featured` gibi dynamic routes'ta hash navigation "Something went wrong!" hatası veriyordu
+- **Çözüm:** 
+  - Tüm navbar hash links (Featured, Help, Trending vb.) artık daima `/#featured`, `/#help` formatında
+  - `homeRoute = '/'` sabit değer olarak ayarlandı (dynamic route generation yerine)
+  - Next.js router ile proper client-side navigation eklendi
+- **Sonuç:** Hash navigation artık tüm sayfalarda güvenli şekilde çalışır
 
 ## 📞 Destek
 
